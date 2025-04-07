@@ -1,21 +1,41 @@
+import fs from "fs/promises"
+import path from "path"
 import { notFound } from "next/navigation"
 
-// In a real implementation, this would fetch the HTML from your storage
+// Directory where HTML files are stored
+const SITES_DIR = path.join(process.cwd(), "public", "sites")
+
+// Get the HTML content for a site
 async function getSiteHtml(siteName: string): Promise<string | null> {
-  // This is a placeholder - in a real app, you'd fetch from a database or file storage
-  // For demo purposes, we'll just return null to show the 404 page
-  return null
+  try {
+    const filePath = path.join(SITES_DIR, `${siteName}.html`)
+    const html = await fs.readFile(filePath, "utf-8")
+    return html
+  } catch (error) {
+    console.error(`Error reading HTML for site ${siteName}:`, error)
+    return null
+  }
 }
 
 export default async function SitePage({ params }: { params: { siteName: string } }) {
-  const html = await getSiteHtml(params.siteName)
+  const { siteName } = params
+
+  // Validate site name to prevent directory traversal attacks
+  if (!/^[a-zA-Z0-9_-]+$/.test(siteName)) {
+    notFound()
+  }
+
+  const html = await getSiteHtml(siteName)
 
   if (!html) {
     notFound()
   }
 
-  // This is a simplified example - in a real app, you'd need to handle
-  // security concerns like sanitizing HTML and proper Content-Security-Policy
-  return <div dangerouslySetInnerHTML={{ __html: html }} />
+  // Return the raw HTML directly
+  return new Response(html, {
+    headers: {
+      "Content-Type": "text/html; charset=utf-8",
+    },
+  })
 }
 

@@ -8,8 +8,9 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Card } from "@/components/ui/card"
-import { Loader2, Check, Copy, Eye } from "lucide-react"
+import { Loader2, Check, Copy, Eye, AlertCircle } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 
 export function CreateSite() {
   const [html, setHtml] = useState("")
@@ -18,17 +19,31 @@ export function CreateSite() {
   const [createdUrl, setCreatedUrl] = useState("")
   const [showPreview, setShowPreview] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!html || !siteName) return
+    if (!html) return
 
     setIsSubmitting(true)
+    setError(null)
+
     try {
-      const url = await createSite(html, siteName)
-      setCreatedUrl(url)
+      // Pass the siteName (which might be empty) to the server action
+      const result = await createSite(html, siteName)
+
+      if (result.error) {
+        setError(result.error)
+      } else {
+        setCreatedUrl(result.url)
+        // If a random name was generated, update the input field
+        if (result.generatedName && !siteName) {
+          setSiteName(result.generatedName)
+        }
+      }
     } catch (error) {
       console.error("Failed to create site:", error)
+      setError("An unexpected error occurred. Please try again.")
     } finally {
       setIsSubmitting(false)
     }
@@ -40,33 +55,42 @@ export function CreateSite() {
     setTimeout(() => setCopied(false), 2000)
   }
 
+  // Basic HTML validation
+  const validateHtml = (html: string): boolean => {
+    // Check for basic HTML structure
+    const hasHtmlTags = /<html.*?>.*?<\/html>/is.test(html)
+    const hasBodyTags = /<body.*?>.*?<\/body>/is.test(html)
+
+    return hasHtmlTags && hasBodyTags
+  }
+
+  const isValidHtml = html ? validateHtml(html) : true
+
   return (
     <div className="max-w-4xl mx-auto">
       <Card className="p-6 bg-gray-900 border-gray-800 shadow-xl">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label htmlFor="siteName" className="block text-sm font-medium mb-2 text-gray-300">
-              网站地址 (例如: my-site)
+              Site Name (Optional)
             </label>
             <Input
               id="siteName"
               value={siteName}
               onChange={(e) => setSiteName(e.target.value)}
-              placeholder="网站地址名称"
+              placeholder="Leave empty for random 3-letter name"
               className="bg-gray-800 border-gray-700 text-white"
-              required
             />
-            {siteName && (
-              <p className="mt-2 text-sm text-gray-400">
-                你的网站将可以通过以下地址访问: <span className="text-purple-400">play.linecode.top/{siteName}</span>
-              </p>
-            )}
+            <p className="mt-2 text-sm text-gray-400">
+              Your site will be available at:{" "}
+              <span className="text-purple-400">play.linecode.com/{siteName || "[random-name]"}</span>
+            </p>
           </div>
 
           <div>
             <div className="flex justify-between items-center mb-2">
               <label htmlFor="html" className="block text-sm font-medium text-gray-300">
-                HTML 代码
+                HTML Code
               </label>
               <Button
                 type="button"
@@ -76,7 +100,7 @@ export function CreateSite() {
                 className="text-gray-400 hover:text-white"
               >
                 <Eye className="h-4 w-4 mr-1" />
-                {showPreview ? "隐藏预览" : "显示预览"}
+                {showPreview ? "Hide Preview" : "Show Preview"}
               </Button>
             </div>
             <Textarea
@@ -87,6 +111,13 @@ export function CreateSite() {
               className="min-h-[300px] bg-gray-800 border-gray-700 text-white font-mono"
               required
             />
+
+            {html && !isValidHtml && (
+              <p className="mt-2 text-sm text-amber-500 flex items-center">
+                <AlertCircle className="h-4 w-4 mr-1" />
+                Warning: Your HTML might be missing required tags (html, body)
+              </p>
+            )}
           </div>
 
           {showPreview && html && (
@@ -98,25 +129,32 @@ export function CreateSite() {
             </div>
           )}
 
+          {error && (
+            <Alert variant="destructive" className="bg-red-900/50 border-red-800 text-red-200">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+
           <Button
             type="submit"
-            disabled={isSubmitting || !html || !siteName}
+            disabled={isSubmitting || !html}
             className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
           >
             {isSubmitting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                创建中...
+                Creating...
               </>
             ) : (
-              "创建网站"
+              "Create Site"
             )}
           </Button>
         </form>
 
         {createdUrl && (
           <div className="mt-6 p-4 bg-gray-800 rounded-md border border-gray-700">
-            <p className="text-sm text-gray-300 mb-2">你的网站已创建!</p>
+            <p className="text-sm text-gray-300 mb-2">Your site has been created!</p>
             <div className="flex items-center">
               <Input value={createdUrl} readOnly className="bg-gray-700 border-gray-600 text-white" />
               <Button
@@ -136,7 +174,7 @@ export function CreateSite() {
                 className="w-full border-gray-700 text-gray-300 hover:bg-gray-800"
                 onClick={() => window.open(createdUrl, "_blank")}
               >
-                访问网站
+                Visit Site
               </Button>
             </div>
           </div>

@@ -8,8 +8,9 @@ export default function HomePage() {
           <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-transparent bg-clip-text animate-gradient">
             HTML Playground
           </h1>
-          <p className="text-gray-400 max-w-3xl mx-auto">
-            粘贴你的 HTML 代码，为其命名，然后立即在 play.linecode.top/你的名字 获得一个可分享的 URL.
+          <p className="text-gray-400 max-w-2xl mx-auto">
+            Paste your HTML code, give it a name (or let us generate one), and instantly get a shareable URL at
+            play.linecode.com/your-name
           </p>
         </div>
 

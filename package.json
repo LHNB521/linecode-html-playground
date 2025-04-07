@@ -1,11 +1,11 @@
 {
-  "name": "linecode-html-playground",
+  "name": "my-v0-project",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3001",
+    "dev": "next dev",
     "build": "next build",
-    "start": "next start -p 3001",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -57,7 +57,10 @@
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.6",
-    "zod": "^3.24.1"
+    "zod": "^3.24.1",
+    "fs": "latest",
+    "path": "latest",
+    "node-html-parser": "latest"
   },
   "devDependencies": {
     "@types/node": "^22",
