@@ -58,8 +58,8 @@ export function CreateSite() {
   // Basic HTML validation
   const validateHtml = (html: string): boolean => {
     // Check for basic HTML structure
-    const hasHtmlTags = /<html.*?>.*?<\/html>/is.test(html)
-    const hasBodyTags = /<body.*?>.*?<\/body>/is.test(html)
+    const hasHtmlTags = /<html.*?>[\s\S]*?<\/html>/i.test(html)
+    const hasBodyTags = /<body.*?>[\s\S]*?<\/body>/i.test(html)
 
     return hasHtmlTags && hasBodyTags
   }

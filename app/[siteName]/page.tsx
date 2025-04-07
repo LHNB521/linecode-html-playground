@@ -17,6 +17,21 @@ async function getSiteHtml(siteName: string): Promise<string | null> {
   }
 }
 
+// This function tells Next.js which routes to pre-render
+export async function generateStaticParams() {
+  try {
+    const files = await fs.readdir(SITES_DIR)
+    return files
+      .filter((file) => file.endsWith(".html"))
+      .map((file) => ({
+        siteName: file.replace(".html", ""),
+      }))
+  } catch (error) {
+    // If the directory doesn't exist yet, return an empty array
+    return []
+  }
+}
+
 export default async function SitePage({ params }: { params: { siteName: string } }) {
   const { siteName } = params
 
@@ -31,11 +46,11 @@ export default async function SitePage({ params }: { params: { siteName: string 
     notFound()
   }
 
-  // Return the raw HTML directly
-  return new Response(html, {
-    headers: {
-      "Content-Type": "text/html; charset=utf-8",
-    },
-  })
+  // Instead of returning a Response object, we'll use Next.js's HTML rendering
+  return <html dangerouslySetInnerHTML={{ __html: html.replace(/<html.*?>|<\/html>/gi, "") }} />
 }
+
+// Configure the metadata for this page
+export const dynamic = "force-dynamic"
+export const dynamicParams = true
 

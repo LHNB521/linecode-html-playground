@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>福州两日深度文化游</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    @page {
+      size: A4;
+      margin: 10mm;
+    }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+      max-width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto;
+      background: #fff;
+      color: #333;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .header {
+      text-align: center;
+      padding: 20px 0;
+      border-bottom: 2px solid #FF6B6B;
+      background-color: #FFF3F3;
+      border-radius: 5px;
+    }
+
+    .header h1 {
+      margin: 0;
+      color: #E63946;
+      font-size: 28px;
+    }
+
+    .intro {
+      background-color: #F8F9FA;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+
+    .schedule {
+      margin: 20px 0;
+    }
+
+    .day-section {
+      background-color: #FFFFFF;
+      border: 1px solid #DDD;
+      border-radius: 5px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .food-section {
+      background-color: #FFF3E0;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 10px 0;
+    }
+
+    .culture-tips {
+      background-color: #E3F2FD;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 10px 0;
+    }
+
+    .transport-tips {
+      background-color: #F1F8E9;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 10px 0;
+    }
+
+    .icon {
+      margin-right: 8px;
+      color: #E63946;
+    }
+
+    .print-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 10px 20px;
+      background-color: #E63946;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    h3 {
+      color: #E63946;
+      border-bottom: 2px solid #FFE0E0;
+      padding-bottom: 5px;
+    }
+
+    .time-tag {
+      background-color: #E63946;
+      color: white;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-size: 0.9em;
+      margin-right: 10px;
+    }
+
+    @media print {
+      .print-btn {
+        display: none;
+      }
+
+      body {
+        padding: 0;
+      }
+
+      .container {
+        padding: 10mm;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <button onclick="window.print()" class="print-btn">
+    <i class="fas fa-print"></i> 打印行程
+  </button>
+  <div class="container">
+    <div class="header">
+      <h1><i class="fas fa-temple"></i> 福州两日深度文化游</h1>
+      <p>探寻闽都古城，品味市井人情</p>
+      <div class="weather">
+        <i class="fas fa-sun"></i> 天气：晴转多云 | 气温：16°C-27°C | 适宜游玩
+      </div>
+    </div>
+
+    <div class="intro">
+      <h2><i class="fas fa-info-circle"></i> 行程特色</h2>
+      <p>本次行程以体验福州本土文化为主，深入老街巷，品尝地道小吃，感受最真实的福州市井生活。</p>
+    </div>
+
+    <div class="day-section">
+      <h3><i class="fas fa-calendar-day"></i> 第一天：古城文化探索</h3>
+
+      <div class="schedule">
+        <p><span class="time-tag">09:00-12:00</span> <b>三坊七巷深度游</b></p>
+        <ul>
+          <li>游览南后街、安民巷、光禄巷等古街巷</li>
+          <li>参观沈葆桢故居、林则徐母家故居</li>
+          <li>体验千年古街区的建筑之美</li>
+        </ul>
+
+        <p><span class="time-tag">12:00-14:00</span> <b>南后街美食探索</b></p>
+        <ul>
+          <li>品尝佛跳墙（老字号店铺）</li>
+          <li>尝试鱼丸汤、芋泥肉燕</li>
+          <li>光顾百年老店"义聚兴"</li>
+        </ul>
+
+        <p><span class="time-tag">14:00-17:00</span> <b>茶亭街区漫步</b></p>
+        <ul>
+          <li>逛福州最老的茶叶市场</li>
+          <li>品尝福州茉莉花茶</li>
+          <li>体验传统茶文化</li>
+        </ul>
+
+        <p><span class="time-tag">17:00-20:00</span> <b>南街夜市体验</b></p>
+        <ul>
+          <li>品尝各类福州特色小吃</li>
+          <li>体验当地夜市文化</li>
+          <li>感受市井生活氛围</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="day-section">
+      <h3><i class="fas fa-calendar-day"></i> 第二天：市井生活体验</h3>
+
+      <div class="schedule">
+        <p><span class="time-tag">08:00-10:00</span> <b>上下杭早市</b></p>
+        <ul>
+          <li>体验传统早市文化</li>
+          <li>品尝鱼丸、肉燕等传统早点</li>
+          <li>观察当地人的生活状态</li>
+        </ul>
+
+        <p><span class="time-tag">10:00-12:00</span> <b>烟台山历史文化区</b></p>
+        <ul>
+          <li>参观福州开埠文化</li>
+          <li>探访百年洋楼建筑</li>
+          <li>了解近代福州历史</li>
+        </ul>
+
+        <p><span class="time-tag">12:00-14:00</span> <b>传统闽菜体验</b></p>
+        <ul>
+          <li>品尝太平燕</li>
+          <li>尝试锅边糊</li>
+          <li>体验特色海鲜料理</li>
+        </ul>
+
+        <p><span class="time-tag">14:00-17:00</span> <b>白马路文创区</b></p>
+        <ul>
+          <li>探访文创小店</li>
+          <li>体验现代福州文化</li>
+          <li>购买特色手工艺品</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="food-section">
+      <h3><i class="fas fa-utensils"></i> 必尝美食推荐</h3>
+      <ul>
+        <li><b>传统小吃：</b>
+          <ul>
+            <li>鱼丸（推荐老祥泰）</li>
+            <li>肉燕（推荐义聚兴）</li>
+            <li>太平燕（推荐老福州大牌档）</li>
+            <li>锅边糊（推荐阿月锅边糊）</li>
+          </ul>
+        </li>
+        <li><b>特色餐厅：</b>
+          <ul>
+            <li>佛跳墙（春光茶室）</li>
+            <li>海鲜餐厅（老福州海鲜大排档）</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="culture-tips">
+      <h3><i class="fas fa-book-reader"></i> 文化体验建议</h3>
+      <ul>
+        <li>建议清早去菜市场体验当地人的生活</li>
+        <li>可以在茶室小坐，体验福州人的茶文化</li>
+        <li>与当地老人聊天，了解福州方言和历史</li>
+        <li>建议步行游览，感受巷弄间的生活气息</li>
+      </ul>
+    </div>
+
+    <div class="transport-tips">
+      <h3><i class="fas fa-bus"></i> 交通建议</h3>
+      <ul>
+        <li>地铁1号线可到达三坊七巷（东街口站）</li>
+        <li>公交5路、18路等可到达上下杭</li>
+        <li>建议主要景点间步行，体验更多巷弄文化</li>
+        <li>打车起步价10元，市区内一般不超过30元</li>
+      </ul>
+    </div>
+  </div>
+</body>
+
+</html>
