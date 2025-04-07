@@ -83,7 +83,7 @@ export function CreateSite() {
             />
             <p className="mt-2 text-sm text-gray-400">
               Your site will be available at:{" "}
-              <span className="text-purple-400">play.linecode.com/{siteName || "[random-name]"}</span>
+              <span className="text-purple-400">play.linecode.top/{siteName || "[random-name]"}</span>
             </p>
           </div>
 

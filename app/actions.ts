@@ -108,7 +108,7 @@ export async function createSite(
   await fs.writeFile(filePath, html, "utf-8")
 
   // Return the URL
-  const url = `https://play.linecode.com/${finalSiteName}`
+  const url = `https://play.linecode.top/${finalSiteName}`
 
   return {
     url,

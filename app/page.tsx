@@ -10,7 +10,7 @@ export default function HomePage() {
           </h1>
           <p className="text-gray-400 max-w-2xl mx-auto">
             Paste your HTML code, give it a name (or let us generate one), and instantly get a shareable URL at
-            play.linecode.com/your-name
+            play.linecode.top/your-name
           </p>
         </div>
 
