@@ -72,17 +72,17 @@ export function CreateSite() {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label htmlFor="siteName" className="block text-sm font-medium mb-2 text-gray-300">
-              Site Name (Optional)
+              站点名称（可选）
             </label>
             <Input
               id="siteName"
               value={siteName}
               onChange={(e) => setSiteName(e.target.value)}
-              placeholder="Leave empty for random 3-letter name"
+              placeholder="留空则随机生成3个字母的名称"
               className="bg-gray-800 border-gray-700 text-white"
             />
             <p className="mt-2 text-sm text-gray-400">
-              Your site will be available at:{" "}
+              您的网站将在以下地址可用: {" "}
               <span className="text-purple-400">play.linecode.top/{siteName || "[random-name]"}</span>
             </p>
           </div>
@@ -90,7 +90,7 @@ export function CreateSite() {
           <div>
             <div className="flex justify-between items-center mb-2">
               <label htmlFor="html" className="block text-sm font-medium text-gray-300">
-                HTML Code
+                HTML 源码
               </label>
               <Button
                 type="button"
@@ -100,7 +100,7 @@ export function CreateSite() {
                 className="text-gray-400 hover:text-white"
               >
                 <Eye className="h-4 w-4 mr-1" />
-                {showPreview ? "Hide Preview" : "Show Preview"}
+                {showPreview ? "隐藏预览" : "显示预览"}
               </Button>
             </div>
             <Textarea
@@ -115,14 +115,14 @@ export function CreateSite() {
             {html && !isValidHtml && (
               <p className="mt-2 text-sm text-amber-500 flex items-center">
                 <AlertCircle className="h-4 w-4 mr-1" />
-                Warning: Your HTML might be missing required tags (html, body)
+                警告：您的 HTML 可能缺少必需的标签（html, body）
               </p>
             )}
           </div>
 
           {showPreview && html && (
             <div className="border border-gray-700 rounded-md overflow-hidden">
-              <div className="bg-gray-800 px-4 py-2 text-sm text-gray-400 border-b border-gray-700">Preview</div>
+              <div className="bg-gray-800 px-4 py-2 text-sm text-gray-400 border-b border-gray-700">预览</div>
               <div className="bg-white p-4 h-[300px] overflow-auto">
                 <iframe srcDoc={html} title="Preview" className="w-full h-full border-0" sandbox="allow-scripts" />
               </div>
@@ -144,17 +144,17 @@ export function CreateSite() {
             {isSubmitting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Creating...
+                创建中...
               </>
             ) : (
-              "Create Site"
+              "创建站点"
             )}
           </Button>
         </form>
 
         {createdUrl && (
           <div className="mt-6 p-4 bg-gray-800 rounded-md border border-gray-700">
-            <p className="text-sm text-gray-300 mb-2">Your site has been created!</p>
+            <p className="text-sm text-gray-300 mb-2">您的站点已创建！</p>
             <div className="flex items-center">
               <Input value={createdUrl} readOnly className="bg-gray-700 border-gray-600 text-white" />
               <Button
@@ -174,7 +174,7 @@ export function CreateSite() {
                 className="w-full border-gray-700 text-gray-300 hover:bg-gray-800"
                 onClick={() => window.open(createdUrl, "_blank")}
               >
-                Visit Site
+                访问站点
               </Button>
             </div>
           </div>

@@ -9,8 +9,7 @@ export default function HomePage() {
             HTML Playground
           </h1>
           <p className="text-gray-400 max-w-2xl mx-auto">
-            Paste your HTML code, give it a name (or let us generate one), and instantly get a shareable URL at
-            play.linecode.top/your-name
+            粘贴你的 HTML 代码，给它取个名字（或者让我们为你生成一个），然后立即在 play.linecode.top/你的名字 获得一个可分享的 URL
           </p>
         </div>
 
