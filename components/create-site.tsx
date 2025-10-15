@@ -36,8 +36,8 @@ export function CreateSite() {
         setError(result.error)
       } else {
         setCreatedUrl(result.url)
-        // If a random name was generated, update the input field
-        if (result.generatedName && !siteName) {
+        // If server returned a generated name (e.g., conflict or empty input), update the input field
+        if (result.generatedName) {
           setSiteName(result.generatedName)
         }
       }
@@ -78,7 +78,7 @@ export function CreateSite() {
               id="siteName"
               value={siteName}
               onChange={(e) => setSiteName(e.target.value)}
-              placeholder="留空则随机生成3个字母的名称"
+              placeholder="留空则随机生成的名称"
               className="bg-gray-800 border-gray-700 text-white"
             />
             <p className="mt-2 text-sm text-gray-400">
