@@ -130,9 +130,7 @@ export async function createSite(
     await fs.writeFile(filePath, html, "utf-8")
 
     // 动态获取当前地址并拼接URL
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 
-                   process.env.VERCEL_URL || 
-                   'http://localhost:3001'
+    const baseUrl = 'http://play.linecode.top'
     const url = `${baseUrl}/${finalSiteName}`
 
     return {
