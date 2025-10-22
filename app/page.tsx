@@ -16,7 +16,7 @@ export default function HomePage() {
 
         <CreateSite />
 
-        <Link href="/admin">
+        <Link href="/admin" className="hidden">
           Admin
         </Link>
       </div>
