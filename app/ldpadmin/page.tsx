@@ -30,6 +30,8 @@ export default function AdminPage() {
   const [editingName, setEditingName] = useState<string | null>(null)
   const [newName, setNewName] = useState("")
   const [error, setError] = useState("")
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage] = useState(10)
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -103,6 +105,16 @@ export default function AdminPage() {
       minute: "2-digit",
       second: "2-digit",
     })
+  }
+
+  // 分页计算
+  const totalPages = Math.ceil(sites.length / itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
+  const currentSites = sites.slice(startIndex, endIndex)
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
   }
 
   if (!isAuthenticated) {
@@ -185,14 +197,14 @@ export default function AdminPage() {
                       加载中...
                     </TableCell>
                   </TableRow>
-                ) : sites.length === 0 ? (
+                ) : currentSites.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={3} className="text-center text-gray-400">
                       暂无站点
                     </TableCell>
                   </TableRow>
                 ) : (
-                  sites.map((site) => (
+                  currentSites.map((site) => (
                     <TableRow key={site.name} className="border-gray-800 hover:bg-gray-800/50">
                       <TableCell className="font-medium text-white">{site.name}</TableCell>
                       <TableCell className="text-gray-400">{formatDate(site.createdAt)}</TableCell>
@@ -235,6 +247,69 @@ export default function AdminPage() {
             </Table>
           </div>
         </Card>
+
+        {/* 分页组件 */}
+        {sites.length > itemsPerPage && (
+          <div className="flex justify-center items-center mt-6 space-x-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="border-gray-700 text-gray-300 bg-transparent disabled:opacity-50"
+            >
+              上一页
+            </Button>
+            
+            <div className="flex space-x-1">
+              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                let pageNum
+                if (totalPages <= 5) {
+                  pageNum = i + 1
+                } else if (currentPage <= 3) {
+                  pageNum = i + 1
+                } else if (currentPage >= totalPages - 2) {
+                  pageNum = totalPages - 4 + i
+                } else {
+                  pageNum = currentPage - 2 + i
+                }
+                
+                return (
+                  <Button
+                    key={pageNum}
+                    variant={currentPage === pageNum ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => handlePageChange(pageNum)}
+                    className={`${
+                      currentPage === pageNum 
+                        ? "bg-purple-600 hover:bg-purple-700" 
+                        : "border-gray-700 text-gray-300 bg-transparent"
+                    }`}
+                  >
+                    {pageNum}
+                  </Button>
+                )
+              })}
+            </div>
+            
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="border-gray-700 text-gray-300 bg-transparent disabled:opacity-50"
+            >
+              下一页
+            </Button>
+            
+            <span className="text-gray-400 text-sm ml-4">
+              第 {currentPage} 页，共 {totalPages} 页
+            </span>
+            <span className="text-gray-400 text-sm">
+              （共 {sites.length} 条记录）
+            </span>
+          </div>
+        )}
 
         <Dialog open={editingName !== null} onOpenChange={() => setEditingName(null)}>
           <DialogContent className="bg-gray-900 border-gray-800 text-white">
