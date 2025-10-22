@@ -132,7 +132,7 @@ export async function createSite(
     // 动态获取当前地址并拼接URL
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 
                    process.env.VERCEL_URL || 
-                   'http://localhost:3333'
+                   'http://localhost:3002'
     const url = `${baseUrl}/${finalSiteName}`
 
     return {
