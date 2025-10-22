@@ -1,4 +1,5 @@
 import { CreateSite } from "@/components/create-site"
+import Link from "next/link"
 
 export default function HomePage() {
   return (
@@ -14,6 +15,10 @@ export default function HomePage() {
         </div>
 
         <CreateSite />
+
+        <Link href="/admin">
+          Admin
+        </Link>
       </div>
     </main>
   )
