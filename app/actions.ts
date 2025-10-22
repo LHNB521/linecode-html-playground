@@ -132,7 +132,7 @@ export async function createSite(
     // 动态获取当前地址并拼接URL
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 
                    process.env.VERCEL_URL || 
-                   'http://localhost:3002'
+                   'http://localhost:3001'
     const url = `${baseUrl}/${finalSiteName}`
 
     return {
@@ -150,7 +150,7 @@ export async function createSite(
 
 //   admin----
 export async function adminLogin(username: string, password: string): Promise<{ success: boolean; error?: string }> {
-  if (username === "admin" && password === "123456789..") {
+  if (username === "ldpadmin" && password === "ldp123456789..") {
     return { success: true }
   }
   return { success: false, error: "用户名或密码错误" }
