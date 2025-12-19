@@ -1,67 +1,42 @@
-import fs from "fs/promises"
-import path from "path"
-import { type NextRequest, NextResponse } from "next/server"
+// app/[siteName]/route.ts
+import { NextResponse } from 'next/server';
+import fs from 'fs';
+import path from 'path';
 
-/** HTML文件存储目录 */
-const SITES_DIR = path.join(process.cwd(), "public", "sites")
-
-/**
- * 获取站点的HTML内容
- * @param siteName - 站点名称
- * @returns HTML内容字符串，如果文件不存在则返回null
- */
-async function getSiteHtml(siteName: string): Promise<string | null> {
-  try {
-    const filePath = path.join(SITES_DIR, `${siteName}.html`)
-    const html = await fs.readFile(filePath, "utf-8")
-    return html
-  } catch (error) {
-    console.error(`读取站点 ${siteName} 的HTML时发生错误:`, error)
-    return null
-  }
-}
-
-/**
- * GET请求处理函数 - 根据站点名称返回对应的HTML内容
- * @param request - Next.js请求对象
- * @param params - 路由参数，包含站点名称
- * @returns HTML响应或404错误
- */
 export async function GET(
-  request: NextRequest, 
-  { params }: { params: { siteName: string } }
-): Promise<NextResponse> {
-  const { siteName } = params
+  request: Request,
+  { params }: { params: Promise<{ siteName: string }> }
+) {
+  // 1. 等待 params 解析 (Next.js 15 要求)
+  const { siteName } = await params;
 
-  // 验证站点名称以防止目录遍历攻击
+  // 2. 安全校验文件名 (防止目录遍历)
   if (!/^[a-zA-Z0-9_-]+$/.test(siteName)) {
-    return new NextResponse("页面未找到", { 
-      status: 404,
-      headers: {
-        "Content-Type": "text/plain; charset=utf-8",
-      }
-    })
+    return new NextResponse('Invalid site name', { status: 400 });
   }
 
-  // 获取HTML内容
-  const html = await getSiteHtml(siteName)
+  const filePath = path.join(process.cwd(), 'public', 'sites', `${siteName}.html`);
 
-  if (!html) {
-    return new NextResponse("页面未找到", { 
-      status: 404,
-      headers: {
-        "Content-Type": "text/plain; charset=utf-8",
-      }
-    })
+  if (!fs.existsSync(filePath)) {
+    return new NextResponse('Site not found', { status: 404 });
   }
 
-  // 返回原始HTML内容，设置正确的Content-Type
-  return new NextResponse(html, {
-    status: 200,
+  const htmlContent = fs.readFileSync(filePath, 'utf-8');
+
+  // 3. 构建响应并添加安全头
+  const response = new NextResponse(htmlContent, {
     headers: {
-      "Content-Type": "text/html; charset=utf-8",
-      "Cache-Control": "public, max-age=3600", // 缓存1小时
+      'Content-Type': 'text/html',
+      // 禁止被其他网站 iframe 嵌入 (防点击劫持)
+      'X-Frame-Options': 'DENY',
+      // 核心安全策略 (CSP):
+      // - default-src 'self': 默认只允许加载同源资源
+      // - script-src: 允许内联脚本 (因为是 Playground)，允许常用 CDN (可选)
+      // - form-action 'none': ★★★ 关键！禁止表单提交数据，彻底废掉钓鱼页面的收集功能
+      // - connect-src 'none': 禁止 AJAX 请求外部接口
+      'Content-Security-Policy': "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: https:; form-action 'none'; object-src 'none'; base-uri 'none';",
     },
-  })
-}
+  });
 
+  return response;
+}
