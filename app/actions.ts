@@ -94,7 +94,7 @@ export async function createSite(
       <div style="height: 48px;"></div>
     `
     // 在 body 最前面插入
-    body.insertAdjacentHTML('afterbegin', securityBanner)
+    // body.insertAdjacentHTML('afterbegin', securityBanner)
   }
 
   // 使用处理后的安全 HTML
